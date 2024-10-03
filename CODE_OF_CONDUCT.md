@@ -1,6 +1,6 @@
-# Adobe code of conduct
+# Adobe Code of Conduct
 
-## Our pledge
+## Our Pledge
 
 In the interest of fostering an open and welcoming environment, we as
 contributors and maintainers pledge to making participation in our project and
@@ -9,7 +9,7 @@ size, disability, ethnicity, gender identity and expression, level of experience
 nationality, personal appearance, race, religion, or sexual identity and
 orientation.
 
-## Our standards
+## Our Standards
 
 Examples of behavior that contributes to creating a positive environment
 include:
@@ -31,7 +31,7 @@ advances.
 * Other conduct which could reasonably be considered inappropriate in a
   professional setting.
 
-## Our responsibilities
+## Our Responsibilities
 
 Project maintainers are responsible for clarifying the standards of acceptable
 behavior and are expected to take appropriate and fair corrective action in
@@ -61,13 +61,13 @@ is deemed necessary and appropriate to the circumstances. The project team is
 obligated to maintain confidentiality with regard to the reporter of an incident.
 Further details of specific enforcement policies may be posted separately.
 
-Project maintainers who do not follow or enforce the code of conduct in good
+Project maintainers who do not follow or enforce the Code of Conduct in good
 faith may face temporary or permanent repercussions as determined by other
 members of the project's leadership.
 
 ## Attribution
 
-This code of conduct is adapted from the [Contributor Covenant][homepage], version 1.4,
+This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4,
 available at [https://contributor-covenant.org/version/1/4][version].
 
 [homepage]: https://contributor-covenant.org

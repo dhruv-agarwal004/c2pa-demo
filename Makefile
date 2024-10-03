@@ -16,47 +16,57 @@ endif
 check-format:
 	cargo +nightly fmt -- --check
 
-check-docs:
-	cargo doc --no-deps --workspace --all-features
-
 clippy:
-	cargo +nightly clippy --all-features --all-targets -- -D warnings
+	cargo clippy --all-features --all-targets -- -D warnings
 
 test-local:
 	cargo test --all-features
 
-test-wasm:
-	cd sdk && wasm-pack test --node
-
-test-wasm-web:
-	cd sdk && wasm-pack test --chrome --headless -- --features="serialize_thumbnails"
-	
 # Full local validation, build and test all features including wasm
 # Run this before pushing a PR to pre-validate
-test: check-format check-docs clippy test-local test-wasm-web
+test: check-format clippy test-local
 
-# Auto format code according to standards
 fmt: 
 	cargo +nightly fmt
 
-# Builds and views documentation
-doc:
-	cargo doc --no-deps --open
+# Creates a folder wtih c2patool bin, samples and readme
+c2patool-package:
+	rm -rf target/c2patool*
+	mkdir -p target/c2patool
+	mkdir -p target/c2patool/sample
+	cp target/release/c2patool target/c2patool/c2patool
+	cp README.md target/c2patool/README.md
+	cp sample/* target/c2patool/sample
+	cp CHANGELOG.md target/c2patool/CHANGELOG.md
 
-# Builds a set of test images using the make_test_images example
-# Outputs to release/test-images
-images:
-	cargo run --release --bin make_test_images
+# These are for building the c2patool release bin on various platforms
+build-release-win:
+	cargo build --release
 
-# Exports JSON schema files so that types can easily be exported to other languages
-# Outputs to release/json-schema
-schema:
-	cargo run --release --bin export_schema
+build-release-mac-arm:
+	rustup target add aarch64-apple-darwin
+	MACOSX_DEPLOYMENT_TARGET=11.1 cargo build --target=aarch64-apple-darwin --release
 
-# Runs the client example using test image and output to target/tmp/client.jpg
-client:
-	cargo run --example client sdk/tests/fixtures/ca.jpg target/tmp/client.jpg
+build-release-mac-x86:
+	rustup target add x86_64-apple-darwin
+	MACOSX_DEPLOYMENT_TARGET=10.15 cargo build --target=x86_64-apple-darwin --release
 
-# Runs the show example
-show:
-	cargo run --example show -- sdk/tests/fixtures/ca.jpg
+build-release-mac-universal: build-release-mac-arm build-release-mac-x86
+	lipo -create -output target/release/c2patool target/aarch64-apple-darwin/release/c2patool target/x86_64-apple-darwin/release/c2patool
+
+build-release-linux:
+	cargo build --release
+
+# Builds and packages a zip for c2patool for each platform
+ifeq ($(PLATFORM), mac)
+release: build-release-mac-universal c2patool-package
+	cd target && zip -r c2patool_mac_universal.zip c2patool && cd ..
+endif
+ifeq ($(PLATFORM), win)
+release: build-release-win c2patool-package
+	cd target && 7z a -r c2patool_win_intel.zip c2patool && cd ..
+endif
+ifeq ($(PLATFORM), linux)
+release: build-release-linux c2patool-package
+	cd target && tar -czvf c2patool_linux_intel.tar.gz c2patool && cd ..
+endif

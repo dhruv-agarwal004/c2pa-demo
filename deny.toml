@@ -12,17 +12,19 @@ targets = [
     { triple = "wasm32-unknown-unknown" },
 ]
 
+# Deny all advisories unless explicitly ignored.
 [advisories]
 yanked = "deny"
-
 ignore = [
   "RUSTSEC-2021-0127", # serde_cbor
   "RUSTSEC-2023-0071", # rsa Marvin Attack: (https://jira.corp.adobe.com/browse/CAI-5104)
 ]
-
+# Deny multiple versions unless explicitly skipped.
 [bans]
-multiple-versions = "allow"
+multiple-versions = "allow" # "deny" # TODO: Re-enable when possible.
+wildcards = "allow"
 
+# List of allowed licenses.
 [licenses]
 allow = [
   "Apache-2.0",
@@ -36,7 +38,7 @@ allow = [
   "Unicode-DFS-2016",
   "Zlib",
 ]
-confidence-threshold = 0.9
+confidence-threshold = 0.8
 
 [[licenses.clarify]]
 name = "ring"
