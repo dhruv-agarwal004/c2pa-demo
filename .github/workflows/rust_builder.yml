@@ -46,8 +46,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./target/release/hello_world
-          asset_name: hello_world-linux
+          asset_path: ./target/release/c2pa
+          asset_name: c2pa-linux
           asset_content_type: application/octet-stream
 
   build-windows:
@@ -71,8 +71,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./target/release/hello_world.exe
-          asset_name: hello_world-windows.exe
+          asset_path: ./target/release/c2pa.exe
+          asset_name: c2pa-windows.exe
           asset_content_type: application/octet-stream
 
   build-macos:
@@ -96,6 +96,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./target/release/hello_world
-          asset_name: hello_world-macos
+          asset_path: ./target/release/c2pa
+          asset_name: c2pa-macos
           asset_content_type: application/octet-stream
